@@ -16,9 +16,9 @@ IF %ERRORLEVEL% NEQ 0 (
     exit /b
 )
 
-:: Install Python using winget
-echo Installing Python with winget...
-winget install --id Python.Python.3 -e --source winget
+:: Install Python 3.13 using winget
+echo Installing Python 3.13 with winget...
+winget install --id Python.Python.3.13 -e --source winget
 
 :: Verify the Python installation
 python --version >nul 2>&1
