@@ -64,8 +64,8 @@ echo Opening a new Command Prompt. Type the following command to run the script:
 echo python ChromeDriver_Download.py
 pause
 
-:: Open a new Command Prompt in the Downloads folder
-start cmd /k "cd /d %USERPROFILE%\Downloads"
+:: Open a new Command Prompt in the Downloads folder and change directory
+start cmd /k "cd %USERPROFILE%\Downloads"
 goto menu
 
 :exit_script
