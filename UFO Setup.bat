@@ -18,13 +18,11 @@ if "%choice%"=="3" goto install_chrome_ide
 if "%choice%"=="4" goto download_and_run_chromedriver_script
 if "%choice%"=="5" goto exit_script
 echo Invalid choice, please try again.
-pause
 goto menu
 
 :install_python
 echo Installing Python...
 winget install python.python.3.13 --silent
-pause
 goto menu
 
 :install_selenium_basic
@@ -32,7 +30,6 @@ echo Downloading and installing SeleniumBasic...
 set downloadPath=%USERPROFILE%\Downloads\SeleniumBasic-2.0.9.0.exe
 bitsadmin /transfer DownloadSeleniumBasic https://github.com/florentbr/SeleniumBasic/releases/download/v2.0.9.0/SeleniumBasic-2.0.9.0.exe %downloadPath%
 start %downloadPath%
-pause
 goto menu
 
 :install_chrome_ide
@@ -44,7 +41,6 @@ if exist "C:\Program Files\Google\Chrome\Application\chrome.exe" (
 ) else (
     echo Chrome not found.
 )
-pause
 goto menu
 
 :download_and_run_chromedriver_script
@@ -55,13 +51,11 @@ bitsadmin /transfer DownloadChromeDriverScript "https://raw.githubusercontent.co
 :: Check if download was successful
 if not exist "%downloadPath%" (
     echo Failed to download ChromeDriver_Download.py. Please check the URL.
-    pause
     goto menu
 )
 
 echo ChromeDriver updater script downloaded to %USERPROFILE%\Downloads.
 echo Opening a new Command Prompt and running the script.
-pause
 
 :: Open a new Command Prompt, navigate to Downloads, and run the Python script
 start cmd /k "cd /d %USERPROFILE%\Downloads && python ChromeDriver_Download.py"
@@ -69,5 +63,4 @@ goto menu
 
 :exit_script
 echo Exiting and cleaning up...
-pause
 exit
