@@ -7,7 +7,7 @@ echo For first-time users, please follow steps 1-4 in order.
 echo 1. Install Python
 echo 2. Install SeleniumBasic
 echo 3. Install Selenium IDE
-echo 4. Download ChromeDriver Updater Script
+echo 4. Download and Run ChromeDriver Updater Script
 echo 5. Exit
 echo =======================================
 set /p choice=Enter your choice (1-5): 
@@ -15,7 +15,7 @@ set /p choice=Enter your choice (1-5):
 if "%choice%"=="1" goto install_python
 if "%choice%"=="2" goto install_selenium_basic
 if "%choice%"=="3" goto install_chrome_ide
-if "%choice%"=="4" goto download_chromedriver_script
+if "%choice%"=="4" goto download_and_run_chromedriver_script
 if "%choice%"=="5" goto exit_script
 echo Invalid choice, please try again.
 pause
@@ -38,16 +38,16 @@ goto menu
 :install_chrome_ide
 echo Opening Selenium IDE in Chrome...
 if exist "C:\Program Files\Google\Chrome\Application\chrome.exe" (
-    start "Chrome" "C:\Program Files\Google\Chrome\Application\chrome.exe" "https://chrome.google.com/webstore/detail/selenium-ide/mooikfkahbdckldjjndioackbalphokd"
+    start "" "C:\Program Files\Google\Chrome\Application\chrome.exe" "https://chrome.google.com/webstore/detail/selenium-ide/mooikfkahbdckldjjndioackbalphokd"
 ) else if exist "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" (
-    start "Chrome" "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "https://chrome.google.com/webstore/detail/selenium-ide/mooikfkahbdckldjjndioackbalphokd"
+    start "" "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "https://chrome.google.com/webstore/detail/selenium-ide/mooikfkahbdckldjjndioackbalphokd"
 ) else (
     echo Chrome not found.
 )
 pause
 goto menu
 
-:download_chromedriver_script
+:download_and_run_chromedriver_script
 echo Downloading ChromeDriver updater script...
 set downloadPath=%USERPROFILE%\Downloads\ChromeDriver_Download.py
 bitsadmin /transfer DownloadChromeDriverScript "https://raw.githubusercontent.com/pshacker01/Work/main/ChromeDriver_Download.py" %downloadPath%
@@ -60,12 +60,11 @@ if not exist "%downloadPath%" (
 )
 
 echo ChromeDriver updater script downloaded to %USERPROFILE%\Downloads.
-echo Opening a new Command Prompt. Type the following command to run the script:
-echo python ChromeDriver_Download.py
+echo Opening a new Command Prompt and running the script.
 pause
 
-:: Open a new Command Prompt in the Downloads folder and change directory
-start cmd /k "cd %USERPROFILE%\Downloads"
+:: Open a new Command Prompt, navigate to Downloads, and run the Python script
+start cmd /k "cd /d %USERPROFILE%\Downloads && python ChromeDriver_Download.py"
 goto menu
 
 :exit_script
