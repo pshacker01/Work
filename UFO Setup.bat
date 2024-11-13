@@ -24,6 +24,11 @@ goto menu
 :install_python
 echo Installing Python...
 winget install python.python.3.13 --silent
+
+:: Add Python to PATH temporarily for the session
+for /f "tokens=*" %%P in ('where python') do set PYTHON_DIR=%%~dpP
+setx PATH "%PATH%;%PYTHON_DIR%"
+echo Python installed and PATH updated.
 pause
 goto menu
 
