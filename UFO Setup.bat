@@ -1,35 +1,54 @@
-Sub DownloadAndRunBatchFile()
-    Dim xmlHttp As Object
-    Dim url As String
-    Dim localPath As String
-    Dim fileNum As Integer
-    Dim responseBody As Variant
-    
-    ' URL of the batch file
-    url = "https://raw.githubusercontent.com/pshacker01/Work/main/UFO%20Setup.bat"
-    ' Path to save the batch file locally
-    localPath = Environ("TEMP") & "\UFO Setup.bat"
-    
-    ' Create XMLHTTP object for downloading
-    Set xmlHttp = CreateObject("MSXML2.XMLHTTP")
-    xmlHttp.Open "GET", url, False
-    xmlHttp.send
-    
-    ' Check for a successful response
-    If xmlHttp.Status = 200 Then
-        responseBody = xmlHttp.responseBody
-        ' Save the file locally
-        fileNum = FreeFile
-        Open localPath For Binary Access Write As #fileNum
-            Put #fileNum, 1, responseBody
-        Close #fileNum
-        
-        ' Run the batch file through cmd.exe for consistent formatting
-        Shell "cmd.exe /c """ & localPath & """", vbNormalFocus
-    Else
-        MsgBox "Failed to download the batch file. Status: " & xmlHttp.Status
-    End If
-    
-    ' Clean up
-    Set xmlHttp = Nothing
-End Sub
+@echo off
+:menu
+cls
+echo =======================================
+echo Please choose an option (1-4):
+echo For first-time users, please follow steps 1-4 in order.
+echo 1. Install Python
+echo 2. Install SeleniumBasic
+echo 3. Install Selenium IDE
+echo 4. Update ChromeDriver
+echo =======================================
+set /p choice=Enter your choice (1-4): 
+
+if "%choice%"=="1" goto install_python
+if "%choice%"=="2" goto install_selenium_basic
+if "%choice%"=="3" goto install_chrome_ide
+if "%choice%"=="4" goto update_chromedriver
+echo Invalid choice, please try again.
+pause
+goto menu
+
+:install_python
+echo Installing Python...
+winget install python.python.3.13 --silent
+pause
+goto menu
+
+:install_selenium_basic
+echo Downloading and installing SeleniumBasic...
+set downloadPath=%temp%\SeleniumBasic-2.0.9.0.exe
+bitsadmin /transfer DownloadSeleniumBasic https://github.com/florentbr/SeleniumBasic/releases/download/v2.0.9.0/SeleniumBasic-2.0.9.0.exe %downloadPath%
+start %downloadPath%
+pause
+goto menu
+
+:install_chrome_ide
+echo Opening Selenium IDE in Chrome...
+if exist "C:\Program Files\Google\Chrome\Application\chrome.exe" (
+    start "Chrome" "C:\Program Files\Google\Chrome\Application\chrome.exe" "https://chrome.google.com/webstore/detail/selenium-ide/mooikfkahbdckldjjndioackbalphokd"
+) else if exist "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" (
+    start "Chrome" "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "https://chrome.google.com/webstore/detail/selenium-ide/mooikfkahbdckldjjndioackbalphokd"
+) else (
+    echo Chrome not found.
+)
+pause
+goto menu
+
+:update_chromedriver
+echo Updating ChromeDriver...
+set downloadPath=%temp%\ChromeDriver_Download.py
+bitsadmin /transfer DownloadChromeDriverScript "https://raw.githubusercontent.com/pshacker01/Work/main/ChromeDriver_Download.py" %downloadPath%
+python %downloadPath%
+pause
+goto menu
