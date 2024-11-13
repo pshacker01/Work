@@ -29,7 +29,7 @@ goto menu
 
 :install_selenium_basic
 echo Downloading and installing SeleniumBasic...
-set downloadPath=%temp%\SeleniumBasic-2.0.9.0.exe
+set downloadPath=%USERPROFILE%\Downloads\SeleniumBasic-2.0.9.0.exe
 bitsadmin /transfer DownloadSeleniumBasic https://github.com/florentbr/SeleniumBasic/releases/download/v2.0.9.0/SeleniumBasic-2.0.9.0.exe %downloadPath%
 start %downloadPath%
 pause
@@ -49,7 +49,7 @@ goto menu
 
 :download_chromedriver_script
 echo Downloading ChromeDriver updater script...
-set downloadPath=%temp%\ChromeDriver_Download.py
+set downloadPath=%USERPROFILE%\Downloads\ChromeDriver_Download.py
 bitsadmin /transfer DownloadChromeDriverScript "https://raw.githubusercontent.com/pshacker01/Work/main/ChromeDriver_Download.py" %downloadPath%
 
 :: Check if download was successful
@@ -59,12 +59,13 @@ if not exist "%downloadPath%" (
     goto menu
 )
 
-echo ChromeDriver updater script downloaded to %temp%.
-echo Opening a new Command Prompt to run the script manually.
+echo ChromeDriver updater script downloaded to %USERPROFILE%\Downloads.
+echo Opening a new Command Prompt. Type the following command to run the script:
+echo python ChromeDriver_Download.py
 pause
 
-:: Open a new Command Prompt, navigate to the download location, and run the script
-start cmd /k "cd /d %temp% && ""C:\Program Files\Python312\python.exe"" ChromeDriver_Download.py"
+:: Open a new Command Prompt in the Downloads folder
+start cmd /k "cd /d %USERPROFILE%\Downloads"
 goto menu
 
 :exit_script
