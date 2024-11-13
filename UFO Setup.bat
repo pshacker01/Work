@@ -25,10 +25,29 @@ goto menu
 echo Installing Python...
 winget install python.python.3.13 --silent
 
-:: Add Python to PATH temporarily for the session
-for /f "tokens=*" %%P in ('where python') do set PYTHON_DIR=%%~dpP
-setx PATH "%PATH%;%PYTHON_DIR%"
-echo Python installed and PATH updated.
+:: Wait a moment to ensure installation completes
+timeout /t 5 /nobreak >nul
+
+:: Check if Python is accessible in PATH
+where python >nul 2>&1
+if errorlevel 1 (
+    echo Python not found in PATH. Attempting to add manually.
+
+    :: Default installation path for Python on Windows
+    set PYTHON_DIR=%LocalAppData%\Microsoft\WindowsApps\
+
+    if exist "%PYTHON_DIR%python.exe" (
+        setx PATH "%PATH%;%PYTHON_DIR%"
+        echo Python added to PATH.
+    ) else (
+        echo Python installation failed or not found in expected location.
+        pause
+        goto menu
+    )
+) else (
+    echo Python is already in PATH.
+)
+
 pause
 goto menu
 
