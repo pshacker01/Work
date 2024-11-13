@@ -47,3 +47,6 @@ for _ in tqdm(range(100), desc="Moving File", ncols=75):
 shutil.move(chrome_driver_path, destination_path)
 
 print(f"ChromeDriver has been moved to {destination_path}")
+
+print("ChromeDriver update complete.")
+sys.exit()  # This will close the Command Prompt after execution
