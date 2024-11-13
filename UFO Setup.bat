@@ -16,38 +16,38 @@ if "%choice%"=="3" goto install_chrome_ide
 if "%choice%"=="4" goto update_chromedriver
 echo Invalid choice, please try again.
 pause
-goto :menu
+goto menu
 
 :install_python
 echo Installing Python...
 winget install python.python.3.13 --silent
 pause
-goto :menu
+goto menu
 
 :install_selenium_basic
 echo Downloading and installing SeleniumBasic...
 set downloadPath=%temp%\SeleniumBasic-2.0.9.0.exe
-bitsadmin /transfer "DownloadSeleniumBasic" https://github.com/florentbr/SeleniumBasic/releases/download/v2.0.9.0/SeleniumBasic-2.0.9.0.exe %downloadPath%
-start "" %downloadPath%
+bitsadmin /transfer DownloadSeleniumBasic https://github.com/florentbr/SeleniumBasic/releases/download/v2.0.9.0/SeleniumBasic-2.0.9.0.exe %downloadPath%
+start %downloadPath%
 pause
-goto :menu
+goto menu
 
 :install_chrome_ide
 echo Opening Selenium IDE in Chrome...
 if exist "C:\Program Files\Google\Chrome\Application\chrome.exe" (
-    start "" "C:\Program Files\Google\Chrome\Application\chrome.exe" "https://chrome.google.com/webstore/detail/selenium-ide/mooikfkahbdckldjjndioackbalphokd"
+    start "Chrome" "C:\Program Files\Google\Chrome\Application\chrome.exe" "https://chrome.google.com/webstore/detail/selenium-ide/mooikfkahbdckldjjndioackbalphokd"
 ) else if exist "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" (
-    start "" "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "https://chrome.google.com/webstore/detail/selenium-ide/mooikfkahbdckldjjndioackbalphokd"
+    start "Chrome" "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "https://chrome.google.com/webstore/detail/selenium-ide/mooikfkahbdckldjjndioackbalphokd"
 ) else (
     echo Chrome not found.
 )
 pause
-goto :menu
+goto menu
 
 :update_chromedriver
 echo Updating ChromeDriver...
 set downloadPath=%temp%\ChromeDriver_Download.py
-bitsadmin /transfer "DownloadChromeDriverScript" "https://raw.githubusercontent.com/pshacker01/Work/main/ChromeDriver_Download.py" %downloadPath%
+bitsadmin /transfer DownloadChromeDriverScript "https://raw.githubusercontent.com/pshacker01/Work/main/ChromeDriver_Download.py" %downloadPath%
 python %downloadPath%
 pause
-goto :menu
+goto menu
