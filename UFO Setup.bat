@@ -7,7 +7,7 @@ echo For first-time users, please follow steps 1-4 in order.
 echo 1. Install Python
 echo 2. Install SeleniumBasic
 echo 3. Install Selenium IDE
-echo 4. Update ChromeDriver
+echo 4. Download and Run ChromeDriver Updater
 echo 5. Exit
 echo =======================================
 set /p choice=Enter your choice (1-5): 
@@ -25,7 +25,7 @@ goto menu
 echo Installing Python...
 winget install python.python.3.13 --silent
 
-:: Wait to ensure installation completes
+:: Wait a moment to ensure installation completes
 timeout /t 5 /nobreak >nul
 
 :: Check for Python installation in typical locations
@@ -64,9 +64,11 @@ pause
 goto menu
 
 :update_chromedriver
-echo Updating ChromeDriver...
-set downloadPath=%temp%\ChromeDriver_Download.py
-bitsadmin /transfer DownloadChromeDriverScript "https://raw.githubusercontent.com/pshacker01/Work/main/ChromeDriver_Download.py" %downloadPath%
+echo Downloading ChromeDriver updater script...
+set downloadPath=%temp%\ChromeDriver.py
+bitsadmin /transfer DownloadChromeDriverScript "https://raw.githubusercontent.com/pshacker01/Work/main/ChromeDriver.py" %downloadPath%
+
+echo Running ChromeDriver updater script...
 "%PYTHON_PATH%" %downloadPath%
 pause
 goto menu
