@@ -28,16 +28,16 @@ winget install python.python.3.13 --silent
 :: Wait a moment to ensure installation completes
 timeout /t 5 /nobreak >nul
 
-:: Check for Python installation in typical locations
-set "PYTHON_PATH=%LocalAppData%\Programs\Python\Python310\python.exe"
+:: Locate Python dynamically
+for /f "delims=" %%p in ('where python 2^>nul') do set "PYTHON_PATH=%%p"
 
-if exist "%PYTHON_PATH%" (
-    echo Python found in %PYTHON_PATH%.
-    setx PATH "%PATH%;%LocalAppData%\Programs\Python\Python310"
-) else (
-    echo Python installation not found. Ensure Python is installed correctly.
+:: Check if Python path was found
+if "%PYTHON_PATH%"=="" (
+    echo Python not found in PATH. Please ensure Python is installed and try again.
     pause
     goto menu
+) else (
+    echo Python found at %PYTHON_PATH%.
 )
 
 pause
@@ -76,11 +76,7 @@ if not exist "%downloadPath%" (
 )
 
 echo Running ChromeDriver updater script...
-if exist "%PYTHON_PATH%" (
-    "%PYTHON_PATH%" %downloadPath%
-) else (
-    echo Python not found at %PYTHON_PATH%. Please ensure Python is installed and try again.
-)
+"%PYTHON_PATH%" "%downloadPath%"
 pause
 goto menu
 
