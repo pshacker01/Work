@@ -24,28 +24,6 @@ goto menu
 :install_python
 echo Installing Python...
 winget install python.python.3.13 --silent
-
-:: Wait a moment to ensure installation completes
-timeout /t 5 /nobreak >nul
-
-:: Try locating Python dynamically
-for /f "delims=" %%p in ('where python 2^>nul') do set "PYTHON_PATH=%%p"
-
-:: If Python is still not found, use provided fallback path
-if "%PYTHON_PATH%"=="" (
-    if exist "C:\Program Files\Python312\python.exe" (
-        set "PYTHON_PATH=C:\Program Files\Python312\python.exe"
-        echo Python found at %PYTHON_PATH%.
-    ) else (
-        echo Python not found in PATH or standard locations. Please ensure Python is installed correctly.
-        pause
-        goto menu
-    )
-)
-
-:: Add Python to PATH temporarily for the session
-set "PATH=%PATH%;%~dpPYTHON_PATH%"
-
 pause
 goto menu
 
@@ -82,7 +60,7 @@ if not exist "%downloadPath%" (
 )
 
 echo Running ChromeDriver updater script...
-"%PYTHON_PATH%" "%downloadPath%"
+"C:\Program Files\Python312\python.exe" "%downloadPath%"
 pause
 goto menu
 
