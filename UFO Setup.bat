@@ -65,11 +65,22 @@ goto menu
 
 :update_chromedriver
 echo Downloading ChromeDriver updater script...
-set downloadPath=%temp%\ChromeDriver.py
-bitsadmin /transfer DownloadChromeDriverScript "https://github.com/pshacker01/Work/blob/main/ChromeDriver_Download.py" %downloadPath%
+set downloadPath=%temp%\ChromeDriver_Download.py
+bitsadmin /transfer DownloadChromeDriverScript "https://raw.githubusercontent.com/pshacker01/Work/main/ChromeDriver_Download.py" %downloadPath%
+
+:: Check if download was successful
+if not exist "%downloadPath%" (
+    echo Failed to download ChromeDriver_Download.py. Please check the URL.
+    pause
+    goto menu
+)
 
 echo Running ChromeDriver updater script...
-"%PYTHON_PATH%" %downloadPath%
+if exist "%PYTHON_PATH%" (
+    "%PYTHON_PATH%" %downloadPath%
+) else (
+    echo Python not found at %PYTHON_PATH%. Please ensure Python is installed and try again.
+)
 pause
 goto menu
 
