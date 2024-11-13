@@ -25,27 +25,19 @@ goto menu
 echo Installing Python...
 winget install python.python.3.13 --silent
 
-:: Wait a moment to ensure installation completes
+:: Wait to ensure installation completes
 timeout /t 5 /nobreak >nul
 
-:: Check if Python is accessible in PATH
-where python >nul 2>&1
-if errorlevel 1 (
-    echo Python not found in PATH. Attempting to add manually.
+:: Check for Python installation in typical locations
+set "PYTHON_PATH=%LocalAppData%\Programs\Python\Python310\python.exe"
 
-    :: Default installation path for Python on Windows
-    set PYTHON_DIR=%LocalAppData%\Microsoft\WindowsApps\
-
-    if exist "%PYTHON_DIR%python.exe" (
-        setx PATH "%PATH%;%PYTHON_DIR%"
-        echo Python added to PATH.
-    ) else (
-        echo Python installation failed or not found in expected location.
-        pause
-        goto menu
-    )
+if exist "%PYTHON_PATH%" (
+    echo Python found in %PYTHON_PATH%.
+    setx PATH "%PATH%;%LocalAppData%\Programs\Python\Python310"
 ) else (
-    echo Python is already in PATH.
+    echo Python installation not found. Ensure Python is installed correctly.
+    pause
+    goto menu
 )
 
 pause
@@ -75,7 +67,7 @@ goto menu
 echo Updating ChromeDriver...
 set downloadPath=%temp%\ChromeDriver_Download.py
 bitsadmin /transfer DownloadChromeDriverScript "https://raw.githubusercontent.com/pshacker01/Work/main/ChromeDriver_Download.py" %downloadPath%
-python %downloadPath%
+"%PYTHON_PATH%" %downloadPath%
 pause
 goto menu
 
