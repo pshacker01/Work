@@ -28,17 +28,23 @@ winget install python.python.3.13 --silent
 :: Wait a moment to ensure installation completes
 timeout /t 5 /nobreak >nul
 
-:: Locate Python dynamically
+:: Try locating Python dynamically
 for /f "delims=" %%p in ('where python 2^>nul') do set "PYTHON_PATH=%%p"
 
-:: Check if Python path was found
+:: If Python is still not found, use provided fallback path
 if "%PYTHON_PATH%"=="" (
-    echo Python not found in PATH. Please ensure Python is installed and try again.
-    pause
-    goto menu
-) else (
-    echo Python found at %PYTHON_PATH%.
+    if exist "C:\Program Files\Python312\python.exe" (
+        set "PYTHON_PATH=C:\Program Files\Python312\python.exe"
+        echo Python found at %PYTHON_PATH%.
+    ) else (
+        echo Python not found in PATH or standard locations. Please ensure Python is installed correctly.
+        pause
+        goto menu
+    )
 )
+
+:: Add Python to PATH temporarily for the session
+set "PATH=%PATH%;%~dpPYTHON_PATH%"
 
 pause
 goto menu
