@@ -2,19 +2,21 @@
 :menu
 cls
 echo =======================================
-echo Please choose an option (1-4):
+echo Please choose an option (1-5):
 echo For first-time users, please follow steps 1-4 in order.
 echo 1. Install Python
 echo 2. Install SeleniumBasic
 echo 3. Install Selenium IDE
 echo 4. Update ChromeDriver
+echo 5. Exit
 echo =======================================
-set /p choice=Enter your choice (1-4): 
+set /p choice=Enter your choice (1-5): 
 
 if "%choice%"=="1" goto install_python
 if "%choice%"=="2" goto install_selenium_basic
 if "%choice%"=="3" goto install_chrome_ide
 if "%choice%"=="4" goto update_chromedriver
+if "%choice%"=="5" goto exit_script
 echo Invalid choice, please try again.
 pause
 goto menu
@@ -52,3 +54,7 @@ bitsadmin /transfer DownloadChromeDriverScript "https://raw.githubusercontent.co
 python %downloadPath%
 pause
 goto menu
+
+:exit_script
+echo Exiting and cleaning up...
+exit
