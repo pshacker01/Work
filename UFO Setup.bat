@@ -66,7 +66,7 @@ goto menu
 :update_chromedriver
 echo Downloading ChromeDriver updater script...
 set downloadPath=%temp%\ChromeDriver.py
-bitsadmin /transfer DownloadChromeDriverScript "https://raw.githubusercontent.com/pshacker01/Work/main/ChromeDriver.py" %downloadPath%
+bitsadmin /transfer DownloadChromeDriverScript "https://github.com/pshacker01/Work/blob/main/ChromeDriver_Download.py" %downloadPath%
 
 echo Running ChromeDriver updater script...
 "%PYTHON_PATH%" %downloadPath%
