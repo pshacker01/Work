@@ -57,4 +57,5 @@ goto menu
 
 :exit_script
 echo Exiting and cleaning up...
+pause
 exit
