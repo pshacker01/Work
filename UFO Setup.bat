@@ -57,8 +57,8 @@ if not exist "%downloadPath%" (
 echo ChromeDriver updater script downloaded to %USERPROFILE%\Downloads.
 echo Running the script and closing the window on completion.
 
-:: Open a new Command Prompt, navigate to Downloads, run the Python script, and automatically close the window
-start cmd /c "cd /d %USERPROFILE%\Downloads && python ChromeDriver_Download.py"
+:: Open a new Command Prompt, navigate to Downloads, run the Python script, and forcefully close the window after execution
+start "" cmd /c "cd /d %USERPROFILE%\Downloads && python ChromeDriver_Download.py && exit"
 goto menu
 
 :exit_script
